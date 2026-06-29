@@ -4,54 +4,54 @@ import { useState } from "react";
 import TaskCard from "./TaskCard";
 
 export default function Column({
-    title,
-    status,
-    tasks,
-    refreshTasks,
-    onDropTask,
-    openEditModal,
+  title,
+  status,
+  tasks,
+  refreshTasks,
+  onDropTask,
+  openEditModal,
 }) {
-    const [isDraggingOver, setIsDraggingOver] =
-        useState(false);
+  const [isDraggingOver, setIsDraggingOver] =
+    useState(false);
 
-    const filteredTasks = tasks.filter(
-        (task) => task.status === status
-    );
+  const filteredTasks = tasks.filter(
+    (task) => task.status === status
+  );
 
-    const statusColors = {
-        todo: "from-sky-500 to-cyan-500",
-        progress:
-            "from-amber-500 to-orange-500",
-        done: "from-emerald-500 to-green-500",
-    };
+  const statusColors = {
+    todo: "from-sky-500 to-cyan-500",
+    progress:
+      "from-amber-500 to-orange-500",
+    done: "from-emerald-500 to-green-500",
+  };
 
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        setIsDraggingOver(true);
-    };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDraggingOver(true);
+  };
 
-    const handleDragLeave = () => {
-        setIsDraggingOver(false);
-    };
+  const handleDragLeave = () => {
+    setIsDraggingOver(false);
+  };
 
-    const handleDrop = (e) => {
-        e.preventDefault();
+  const handleDrop = (e) => {
+    e.preventDefault();
 
-        setIsDraggingOver(false);
+    setIsDraggingOver(false);
 
-        const taskId =
-            e.dataTransfer.getData(
-                "text/plain"
-            );
+    const taskId =
+      e.dataTransfer.getData(
+        "text/plain"
+      );
 
-        if (taskId && onDropTask) {
-            onDropTask(taskId, status);
-        }
-    };
+    if (taskId && onDropTask) {
+      onDropTask(taskId, status);
+    }
+  };
 
-    return (
-        <div
-            className={`
+  return (
+    <div
+      className={`
       flex-1
       min-h-[750px]
       rounded-3xl
@@ -62,17 +62,18 @@ export default function Column({
       shadow-xl
       transition-all
       duration-300
-      ${isDraggingOver
-                    ? "scale-[1.02] border-indigo-300 bg-white/80"
-                    : "border-white/40"
-                }
+      ${
+        isDraggingOver
+          ? "scale-[1.02] border-indigo-300 bg-white/80"
+          : "border-white/40"
+      }
       `}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-        >
-            <div
-                className={`
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      <div
+        className={`
         bg-gradient-to-r
         ${statusColors[status]}
         rounded-2xl
@@ -80,14 +81,14 @@ export default function Column({
         text-white
         mb-5
       `}
-            >
-                <div className="flex justify-between items-center">
-                    <h2 className="font-bold text-lg">
-                        {title}
-                    </h2>
+      >
+        <div className="flex justify-between items-center">
+          <h2 className="font-bold text-lg">
+            {title}
+          </h2>
 
-                    <span
-                        className="
+          <span
+            className="
             bg-white/20
             px-3
             py-1
@@ -95,15 +96,15 @@ export default function Column({
             text-sm
             font-semibold
           "
-                    >
-                        {filteredTasks.length}
-                    </span>
-                </div>
-            </div>
+          >
+            {filteredTasks.length}
+          </span>
+        </div>
+      </div>
 
-            {filteredTasks.length === 0 ? (
-                <div
-                    className="
+      {filteredTasks.length === 0 ? (
+        <div
+          className="
           border-2
           border-dashed
           border-slate-300
@@ -112,19 +113,19 @@ export default function Column({
           py-12
           text-slate-400
         "
-                >
-                    Drop tasks here
-                </div>
-            ) : (
-                filteredTasks.map((task) => (
-                    <TaskCard
-                        key={task.id}
-                        task={task}
-                        refreshTasks={refreshTasks}
-                        openEditModal={openEditModal}
-                    />
-                ))
-            )}
+        >
+          Drop tasks here
         </div>
-    );
+      ) : (
+        filteredTasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            task={task}
+            refreshTasks={refreshTasks}
+            openEditModal={openEditModal}
+          />
+        ))
+      )}
+    </div>
+  );
 }
